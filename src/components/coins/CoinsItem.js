@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Platform } from 'react-native';
+import { View, Text, Pressable, Image, StyleSheet, Platform } from 'react-native';
 import Colors from '../../res/colors';
 
-const CoinsItem = ({ item }) => {
+const CoinsItem = ({ item, onPress }) => {
 
   const getItemArrow = () => {
     if (item.percent_change_1h > 0) {
@@ -13,7 +13,7 @@ const CoinsItem = ({ item }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.symbolText}>{item.symbol}</Text>
         <Text style={styles.nameText}>{item.name}</Text>
@@ -24,7 +24,7 @@ const CoinsItem = ({ item }) => {
         <Text style={styles.percentText}>{item.percent_change_1h}</Text>
         <Image source={getItemArrow()} style={styles.imageIcon} />
       </View>
-    </View>
+    </Pressable>
   )
 }
 
