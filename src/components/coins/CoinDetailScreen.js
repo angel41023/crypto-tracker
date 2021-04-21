@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 
-class CoinDetailScreen extends Component {
-  render() {
-    return(
-      <View>
-        <Text>Coin Detail Screen</Text>
-      </View>
-    )
-  }
+const CoinDetailScreen = ({ route }) => {
+  useEffect(() => {
+    console.log(route.params)
+  }, [])
+  return (
+    <View>
+      <Text>Coin Detail Screen</Text>
+    </View>
+  )
 }
 
 export default CoinDetailScreen;
