@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import Colors from '../../res/colors';
+import CoinsItem from './CoinsItem';
 import Http from '../../libs/http';
 
 const CoinsScreen = (props) => {
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   useEffect(async () => {
-    const coins = await Http.instance.get('https://api.coinlore.net/api/tickers/');
-    console.log(coins)
+    setLoading(true);
+    const res = await Http.instance.get('https://api.coinlore.net/api/tickers/');
+    setCoins(res.data);
+    setLoading(false);
   }, [])
 
   handlePress = () => {
@@ -14,10 +21,18 @@ const CoinsScreen = (props) => {
 
   return(
     <View style={styles.container}>
-      <Text style={styles.title}>Coins Screen</Text>
-      <Pressable onPress={handlePress} style={styles.btn}>
-        <Text style={styles.text}>Ir al detalle</Text>
-      </Pressable>
+      { loading ?
+          <ActivityIndicator
+            color='#f00'
+            size='large'
+            style={styles.loader}
+          />
+        : null
+      }
+      <FlatList
+        data={coins}
+        renderItem={({ item }) => <CoinsItem item={item} /> }
+      />
     </View>
   );
 }
@@ -25,7 +40,7 @@ const CoinsScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.charade,
     padding: 5
   },
   title: {
@@ -40,6 +55,9 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     textAlign: 'center'
+  },
+  loader: {
+    marginTop: 60
   }
   
 })
